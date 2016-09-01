@@ -1,0 +1,6 @@
+"""
+@author: khillibob
+
+"""
+
+seleniumObj = None
