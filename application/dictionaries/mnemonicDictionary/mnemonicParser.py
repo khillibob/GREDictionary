@@ -49,6 +49,6 @@ class MnemonicParser():
         SECTION_CSS_SELECTOR = "#home-middle-content > div:nth-child(5)"
         #a = seleniumUtils.SeleniumUtils(BASE_URL+alphbt)
         BASE_URL = "http://www.mnemonicdictionary.com/?word="
-        
+         
          
 MnemonicParser().getEasyMeanings('a',None)            
