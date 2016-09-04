@@ -6,10 +6,7 @@ import sys
 from shutil import copyfile
 
 
-a= "মেজাজ আচরণ ভাষা প্রভৃতির রুক্ষতা"
 
-
-#print(a)
 
 class DBUtil():
     
@@ -40,11 +37,13 @@ class DBUtil():
         conn.execute(query)
         conn.commit()
     
-    def updateMnemonic(self,conn=None,word,way_to_remember,way_to_remember2,dbName):
+    def updateMnemonic(self,word,way_to_remember,way_to_remember2,dbName):
         conn=sqlite3.connect(dbName)
+        way_to_remember = way_to_remember.replace("'","]")
+        way_to_remember2 = way_to_remember2.replace("'","]")
         updateQuery = "UPDATE MNEMONIC_DICT set "+"way_to_remember = '"+way_to_remember+ "' where word='"+word+"'"
-        updateQuery2 = "UPDATE MNEMONIC_DICT set "+"way_to_remember22 = '"+way_to_remember+ "' where word='"+word+"'"
-        print(updateQuery)
+        updateQuery2 = "UPDATE MNEMONIC_DICT set "+"way_to_remember2 = '"+way_to_remember2+ "' where word='"+word+"'"
+        #print(updateQuery)
         conn.execute(updateQuery)
         conn.execute(updateQuery2)
         conn.commit()

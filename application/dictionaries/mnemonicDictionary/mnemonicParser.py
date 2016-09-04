@@ -28,12 +28,12 @@ class MnemonicParser():
             alphbt = chr(ord(alphbt)+1)
         print(page_count_mnemonic)
         
-    def fetchAllWords(self):
+    def fetchAllWords(self,dbName):
         
         """
         
         def:    get all words from table
-        input:    None
+        input:    Database file
         output:    returns all words list
         
         """
@@ -66,11 +66,21 @@ class MnemonicParser():
             #soup = BeautifulSoup(page)
             #sub_page = str(soup.select(SECTION_CSS_SELECTOR))
             soup = BeautifulSoup(page, "html.parser")
+            soup.encode("utf-8")
             divs = soup.find_all("div", attrs={"class": "span9"})
-            print(len(divs))
-            print(divs[0].get_text().strip())
-            if(len(divs)>=2):
-                a='a'
+            #print(len(divs))
+            #print(divs[0].get_text().strip())
+            res=[]
+            if divs==None :
+                return res
+            elif(len(divs)>=2):
+                res.append(divs[0].get_text())
+                res.append(divs[1].get_text())
+            elif(len(divs)==1):
+                res.append(divs[0].get_text())
+            else:
+                res=[]
+            return res
         except Exception:
             traceback.print_exc()
     
@@ -82,11 +92,15 @@ class MnemonicParser():
         dbname = 'C:\\HDD\\Subhendu\\ProjectX\\GREX\\GRE.db'
         words = MnemonicParser().fetchAllWords(dbname)
         for word in words:
+            
+            print(word)
             meanings = self.getEasyMeanings(word)
-            if len(meanings)>=2:
-                dbUtils.DBUtil().updateMnemonic(word, meanings[0], meanings[1],dbname)
+            if meanings ==None:
+                dbUtils.DBUtil().updateMnemonic(word, 'None', 'None',dbname)
+            elif len(meanings)>=2:
+                dbUtils.DBUtil().updateMnemonic(word, meanings[0].strip(), meanings[1].strip(),dbname)
             elif len(meanings)==1:
-                dbUtils.DBUtil().updateMnemonic(word, meanings[0], 'None',dbname)
+                dbUtils.DBUtil().updateMnemonic(word, meanings[0].strip(), 'None',dbname)
             else:
                 dbUtils.DBUtil().updateMnemonic(word, 'None', 'None',dbname)
 MnemonicParser().insertMnemonic()
