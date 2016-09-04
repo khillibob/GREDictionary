@@ -3,6 +3,8 @@ import json
 import application.Utils.UIUtils.seleniumutils as seleniumUtils
 import application.config as config
 import os
+import application.Utils.dbUtil.dbUtils as dbUtils
+
 #config.seleniumObj = seleniumUtils.SeleniumUtils()
 
 
@@ -202,7 +204,21 @@ class MagooshUtil():
         
         with open(jsonFile, 'w+') as outfile:
             json.dump(wordDictionary, outfile)
+
+
+"""
+
+# these functions are for parsing the magoosh flashcards
     
 MagooshUtil().getAdvancedWords()
 MagooshUtil().getCommonWords()
 MagooshUtil().getBasicWords()
+"""
+
+conn = dbUtils.DBUtil().createMnemonicDatabase()
+dbUtils.DBUtil().insertAllWordsInDB(conn,"mnemonic", os.path.join(os.path.dirname(__file__),'BASIC'))
+
+dbUtils.DBUtil().insertAllWordsInDB(conn,"mnemonic", os.path.join(os.path.dirname(__file__),'COMMONS'))
+dbUtils.DBUtil().insertAllWordsInDB(conn,"mnemonic", os.path.join(os.path.dirname(__file__),'ADVANCED'))
+
+conn.close()

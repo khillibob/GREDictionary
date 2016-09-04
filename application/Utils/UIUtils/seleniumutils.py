@@ -26,6 +26,8 @@ class SeleniumUtils():
         self.webDriver.get(url)
         self.webDriver.implicitly_wait(5) 
         
+    def getHTMLByElement(self,element):
+        return element.get_attribute('innerHTML')    
     def getWebDriver(self):
         return self.webDriver
     def switch_to_window(self,handleStr):
