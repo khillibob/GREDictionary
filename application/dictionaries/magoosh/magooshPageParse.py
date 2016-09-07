@@ -214,11 +214,21 @@ MagooshUtil().getAdvancedWords()
 MagooshUtil().getCommonWords()
 MagooshUtil().getBasicWords()
 """
-
+"""
 conn = dbUtils.DBUtil().createMnemonicDatabase()
 dbUtils.DBUtil().insertAllWordsInDB(conn,"mnemonic", os.path.join(os.path.dirname(__file__),'BASIC'))
 
 dbUtils.DBUtil().insertAllWordsInDB(conn,"mnemonic", os.path.join(os.path.dirname(__file__),'COMMONS'))
 dbUtils.DBUtil().insertAllWordsInDB(conn,"mnemonic", os.path.join(os.path.dirname(__file__),'ADVANCED'))
 
+conn.close()
+"""
+"""
+conn = dbUtils.DBUtil().createMagooshDatabase()
+dbUtils.DBUtil().insertAllMagooshWords( os.path.join(os.path.dirname(__file__),'BASIC'), 'BASIC', conn)
+dbUtils.DBUtil().insertAllMagooshWords( os.path.join(os.path.dirname(__file__),'COMMONS'), 'COMMONS', conn)
+dbUtils.DBUtil().insertAllMagooshWords( os.path.join(os.path.dirname(__file__),'ADVANCED'), 'ADVANCED', conn)
+"""
+conn = dbUtils.DBUtil().getDB('GRE.db')
+dbUtils.DBUtil().updateAllWayToRemember(conn)
 conn.close()
