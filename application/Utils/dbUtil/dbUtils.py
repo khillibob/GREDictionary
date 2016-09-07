@@ -104,3 +104,55 @@ class DBUtil():
         if not os.path.exists(dst):
             os.makedirs(dst)
         copyfile(src, dst)
+    def createMagooshDatabase(self):
+        conn = sqlite3.connect('GRE.db')
+        print( "Opened database successfully")
+        conn.execute('''CREATE TABLE  IF NOT EXISTS MAGOOSH_DICT
+                   (word CHAR(100) PRIMARY KEY     NOT NULL,
+                    wordURL CHAR(500),
+                    meaning_1 CHAR(1000),
+                    sentence_1 CHAR(1500),
+                    meaning_2 CHAR(1000),
+                    sentence_2 CHAR(1500),
+                    meaning_3 CHAR(1000),
+                    sentence_3 CHAR(1500),
+                    way_to_remember CHAR(500),
+                    way_to_remember2 CHAR(500)),
+                    difficulty CHAR(500));''')
+        print("DB created")
+        return conn
+
+    def insertMagooshDB(self,conn,
+                        word,
+                        wordURL,
+                        meaning_1,
+                        sentence_1,
+                        meaning_2,
+                        sentence_2,
+                        meaning_3,
+                        sentence_3,
+                        way_to_remember,
+                        way_to_remember2,
+                        difficulty):
+        query = "INSERT INTO MNEMONIC_DICT ("+ \
+            "word"+","+ \
+            "wordURL"+","+ \
+            "meaning_1"+","+ \
+            "way_to_remember"+","+ \
+            "way_to_remember"+","+ \
+            "way_to_remember"+","+ \
+            "way_to_remember"+","+ \
+            "way_to_remember"+","+ \
+            "way_to_remember"+","+ \
+            "way_to_remember2"+") VALUES ('" +word+"','"+way_to_remember+"','"+way_to_remember2+"')"
+        print(query)
+        conn.execute(query)
+        conn.commit()
+    
+    def updateMagooshDB(self,dbName,word,colName,colValue):
+        conn=sqlite3.connect(dbName)
+        updateQuery = "UPDATE MNEMONIC_DICT set "+colName+" = '"+colValue+ "' where word='"+word+"'"
+        conn.execute(updateQuery)
+        conn.commit()
+    
+    
